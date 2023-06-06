@@ -14,6 +14,8 @@ torch >= 1.10.0
 For some .zip files, you should unzip them in the current path, which contain some modified codes.
 
 For the used Oscar-base version and pretrained phrase-level alignment model, you can download them from the [HuggingFace Hub](https://huggingface.co/YunxinLi)
+ 
+For preprocessing data, you can also download from the [ModCR_checkpoints](https://huggingface.co/YunxinLi) in HuggingFace Hub.
 
 ## Training
 
