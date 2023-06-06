@@ -19,12 +19,12 @@ For the used Oscar-base version and pretrained phrase-level alignment model, you
 
 For PMR task, you can run the file:
 ```
-python ModCR_PMR.py
+python run_PMR_ModCR.py
 ```
   
 For VCR task, you can run the file:
 ```
-python vcr_modcr.py
+python run_vcr_ModCR.py
 ```
 
 ## Acknowledge
