@@ -13,9 +13,11 @@ torch >= 1.10.0
 
 For some .zip files, you should unzip them in the current path, which contain some modified codes.
 
-For the used Oscar-base version and pretrained phrase-level alignment model, you can download them from the [HuggingFace Hub](https://huggingface.co/YunxinLi)
+For the used Oscar-base version and pretrained phrase-level alignment model, you could download them from the [HuggingFace Hub](https://huggingface.co/YunxinLi)
  
-For preprocessing data, you can also download from the [ModCR_checkpoints](https://huggingface.co/YunxinLi) in HuggingFace Hub.
+For preprocessing PMR and VCR data, you could also download them from the [ModCR_checkpoints](https://huggingface.co/YunxinLi) in HuggingFace Hub.
+
+You could put the checkpoints and data in the path same to the run_PMR_ModCR.py or run_vcr_ModCR.py. You could also put them in your own path. 
 
 ## Training
 
