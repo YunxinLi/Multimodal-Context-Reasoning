@@ -35,7 +35,7 @@ python run_vcr_ModCR.py
 
 Thanks all contributors for their supports!!!
 
-If you're using LMEye in your research or applications, please cite our work:
+If you're using ModCR in your research or applications, please cite our work:
 
 ```
 @article{li2023multi,
