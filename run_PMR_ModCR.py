@@ -788,18 +788,18 @@ def main():
 
     # -----------------------------CLIP----------------------------
 
-    clip_train = args.clip_file_train
-    clip_val = args.clip_file_dev
-    clip_test = args.clip_file_test
+    #clip_train = args.clip_file_train
+    #clip_val = args.clip_file_dev
+    #clip_test = args.clip_file_test
     # checkpoint = torch.load('local_transformers/clip/CONTRA_clip_best_0.764.pt', map_location='cpu')
     # clip_model.load_state_dict(checkpoint['model_state_dict'], True)
-    clip.model.convert_weights(clip_model)
+    #clip.model.convert_weights(clip_model)
     # frozen clip parameters
-    for name, parameter in clip_model.named_parameters():
-        parameter.requires_grad = False
+    #for name, parameter in clip_model.named_parameters():
+    #    parameter.requires_grad = False
 
 
-    model = Abstract_Specific(calec_model=calec_model, clip_model=clip_model, roberta_model=roberta_model, num_labels=4)
+    model = Abstract_Specific(calec_model=calec_model, clip_model=None, roberta_model=roberta_model, num_labels=4)
 
     if args.do_test:
         model_file = args.eval_model_dir
