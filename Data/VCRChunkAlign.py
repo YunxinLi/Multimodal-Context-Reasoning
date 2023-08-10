@@ -552,9 +552,9 @@ class PMR_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         self.preprocess = preprocess
         self.device = device
 
-        with open(clip_example_file, 'r') as file:
-            lines = file.readlines()
-            self.clip_annot_dict = [json.loads(line) for line in lines]
+        #with open(clip_example_file, 'r') as file:
+        #    lines = file.readlines()
+        #    self.clip_annot_dict = [json.loads(line) for line in lines]
 
         if heat_index is not None:
 
@@ -575,12 +575,12 @@ class PMR_ChunkAlign_Dataset_align_ensemble_T(Dataset):
 
         example = self.VCR_annot_dict[i]
         roberta_example = self.roberta_annot_dict[i]
-        clip_example = self.clip_annot_dict[i]
+        #clip_example = self.clip_annot_dict[i]
 
         # --------------CLIP---------------
-        image_path = image_ori_path + clip_example["img_fn"]
-        image = Image.open(image_path).convert('RGB')
-        image_input = self.preprocess(image)
+        #image_path = image_ori_path + clip_example["img_fn"]
+        #image = Image.open(image_path).convert('RGB')
+        #image_input = self.preprocess(image)
 
         # --------------CALeC---------------
         id = example['image_id']
@@ -614,15 +614,15 @@ class PMR_ChunkAlign_Dataset_align_ensemble_T(Dataset):
 
         for ans_idx in range(len(example['answer_choices'])):
             # ------------CLIP------------
-            clip_ans = clip_example['answer_choices'][ans_idx]
-            str_ans = ""
-            for x in clip_ans:
-                if isinstance(x, list):
-                    id = x[0]
-                    str_ans += clip_example['objects'][id]
-                else:
-                    str_ans += x + " "
-            clip_ans_tokens = clip.tokenize(str_ans)
+            #clip_ans = clip_example['answer_choices'][ans_idx]
+            #str_ans = ""
+            #for x in clip_ans:
+            #    if isinstance(x, list):
+            #        id = x[0]
+            #        str_ans += clip_example['objects'][id]
+            #    else:
+            #        str_ans += x + " "
+            #clip_ans_tokens = clip.tokenize(str_ans)
             # ------------Roberta----------
             r_ans = roberta_example['answer_choices'][ans_idx]
             r_ans_tokens = self.roberta_toker.tokenize('Answer is ' + ' '.join(r_ans.split(' , ')))
@@ -679,7 +679,8 @@ class PMR_ChunkAlign_Dataset_align_ensemble_T(Dataset):
                     target = torch.tensor(1).cuda(self.device)
                 else:
                     target = torch.tensor(0).cuda(self.device)
-
+            image_input =""
+            clip_ans_tokens = ""
             outputs.append((example['annot_id'], image_input, clip_ans_tokens,
                             r_input_ids, r_segment_ids, r_input_mask, input_ids, segment_ids, input_mask, img_feat, img_mask, target,
                             chunk_mask, gather_index, offsets, example['sent'],
@@ -721,13 +722,15 @@ class PMR_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         chunk_mask_padd = torch.stack(chunk_mask_padd, 0)
 
         # ---------------CLIP
-        r_image = []
-        for i in range(0, len(image), 4):
-            r_image.append(image[i])
-        image = torch.stack(r_image, dim=0).cuda(self.device)
-        text = torch.stack(text, dim=0).cuda(self.device)
-
-        batch = {'img_id': img_id, "image" : image, "text":text ,'r_input_ids':r_input_ids, "r_token_type_ids":r_segment_ids,
+        #r_image = []
+        #for i in range(0, len(image), 4):
+        #    r_image.append(image[i])
+        #image = torch.stack(r_image, dim=0).cuda(self.device)
+        #text = torch.stack(text, dim=0).cuda(self.device)
+        # ---------------CLIP
+        
+        batch = {'img_id': img_id, "image" : None, "text":None, 
+                 'r_input_ids':r_input_ids, "r_token_type_ids":r_segment_ids,
                  "r_attention_mask":r_input_mask,
                  'input_ids': input_ids, 'token_type_ids': segment_ids,
                  'input_mask': input_mask, 'img_feat': img_feat, 'label': target, 'ques_str': ques, 'ans_str': ans,
@@ -764,9 +767,9 @@ class VCR_only_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         self.preprocess = preprocess
         self.device = device
 
-        with open(clip_example_file, 'r') as file:
-            lines = file.readlines()
-            self.clip_annot_dict = [json.loads(line) for line in lines]
+        #with open(clip_example_file, 'r') as file:
+        #    lines = file.readlines()
+        #    self.clip_annot_dict = [json.loads(line) for line in lines]
 
         if heat_index is not None:
             self.VCR_annot_dict = self.VCR_annot_dict[heat_index:heat_index + 1]
@@ -787,9 +790,9 @@ class VCR_only_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         clip_example = self.clip_annot_dict[i]
 
         # --------------CLIP---------------
-        image_path = image_ori_path + clip_example["img_fn"]
-        image = Image.open(image_path).convert('RGB')
-        image_input = self.preprocess(image)
+        #image_path = image_ori_path + clip_example["img_fn"]
+        #image = Image.open(image_path).convert('RGB')
+        #image_input = self.preprocess(image)
 
         # --------------CALeC---------------
         id = example['image_id']
@@ -822,15 +825,15 @@ class VCR_only_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         #r_que_tokens = self.roberta_toker.tokenize(r_que_tokens)
         for ans_idx in range(len(example['answer_choices'])):
             # ------------CLIP------------
-            clip_ans = clip_example['answer_choices'][ans_idx]
-            str_ans = ""
-            for x in clip_ans:
-                if isinstance(x, list):
-                    id = x[0]
-                    str_ans += clip_example['objects'][id]
-                else:
-                    str_ans += x + " "
-            clip_ans_tokens = clip.tokenize(str_ans)
+            #clip_ans = clip_example['answer_choices'][ans_idx]
+            #str_ans = ""
+            #for x in clip_ans:
+            #    if isinstance(x, list):
+            #        id = x[0]
+            #        str_ans += clip_example['objects'][id]
+            #    else:
+            #        str_ans += x + " "
+            #clip_ans_tokens = clip.tokenize(str_ans)
 
             # ------------Roberta----------
             r_ans = roberta_example['answer_choices'][ans_idx]
@@ -889,7 +892,8 @@ class VCR_only_ChunkAlign_Dataset_align_ensemble_T(Dataset):
                     target = torch.tensor(1).cuda(self.device)
                 else:
                     target = torch.tensor(0).cuda(self.device)
-
+            image_input = ""
+            clip_ans_tokens = ""
             outputs.append((example['annot_id'], image_input, clip_ans_tokens,
                             r_input_ids, r_segment_ids, r_input_mask, input_ids, segment_ids, input_mask, img_feat, img_mask, target,
                             chunk_mask, gather_index, offsets, example['sent'],
@@ -931,13 +935,13 @@ class VCR_only_ChunkAlign_Dataset_align_ensemble_T(Dataset):
         chunk_mask_padd = torch.stack(chunk_mask_padd, 0)
 
         # ---------------CLIP
-        r_image = []
-        for i in range(0, len(image), 4):
-            r_image.append(image[i])
-        image = torch.stack(r_image, dim=0).cuda(self.device)
-        text = torch.stack(text, dim=0).cuda(self.device)
+        #r_image = []
+        #for i in range(0, len(image), 4):
+        #    r_image.append(image[i])
+        #image = torch.stack(r_image, dim=0).cuda(self.device)
+        #text = torch.stack(text, dim=0).cuda(self.device)
 
-        batch = {'img_id': img_id, "image" : image, "text":text ,'r_input_ids':r_input_ids, "r_token_type_ids":r_segment_ids,
+        batch = {'img_id': img_id, "image" : image, "text":text, 'r_input_ids':r_input_ids, "r_token_type_ids":r_segment_ids,
                  "r_attention_mask":r_input_mask,
                  'input_ids': input_ids, 'token_type_ids': segment_ids,
                  'input_mask': input_mask, 'img_feat': img_feat, 'label': target, 'ques_str': ques, 'ans_str': ans,
