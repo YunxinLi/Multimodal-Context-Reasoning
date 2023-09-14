@@ -823,6 +823,8 @@ def main():
         for n, p in params_c.items():
             if 'mapping_network_vision.' in n:
                 del params[n]
+            if 'classifier.' in n:
+                del params[n]
             elif 'mapping_network_alignment.' in n:
                 del params[n]
             else:
